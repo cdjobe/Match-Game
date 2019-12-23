@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery.js"></script>
+    <title>Document</title>
+    <style>
+        
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 200px;
+            min-height: 200px;
+            border: 2px black solid;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 0 auto;
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
+        .blue {
+            background-color: blue;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .purple {
+            background-color: purple;
+        }
+        .green {
+            background-color: green;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- <div class="row">
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+        </div>
+        <div class="row">
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+            <div class="card"></div>
+        </div> -->
+    </div>
+    
+</body>
+    <script>
+    
+        var board = 
+            [1, 1, 1, 1, 1, 1, 1, 1];
+
+        var hiddenBoard = 
+            [1, 1, 1, 1, 1, 1, 1, 1];
+
+        // [0]=red, [1]=blue, [2]=yellow, [3]= purple
+        var red = 2;
+        var blue = 2;
+        var yellow = 2;
+        var purple = 2;
+        
+        function pickColor() {
+
+            var randNum = Math.floor(Math.random()*4 + 1);
+            // console.log(randNum);
+            var color;
+            if (randNum == 1 && red > 0){
+                color = "red";
+                red--;
+            }
+            else if (randNum == 2 && blue > 0){
+                color = "blue";
+                blue--;
+            }
+            else if (randNum == 3 && yellow > 0){
+                color = "yellow";
+                yellow--;
+            }
+            else if (randNum = 4 && purple > 0) {
+                color = "purple";
+                purple--;
+            }
+            else {
+                color = pickColor();
+            }
+            return color;
+        }
+
+        function makeHiddenBoard(){
+            for (var i = 0; i < hiddenBoard.length; i++){
+                    hiddenBoard[i] = pickColor();
+                    console.log(hiddenBoard[i]);
+            }
+        }
+
+        function makeBoard(){
+            var output = '';
+            for (var i = 0; i < board.length; i++){
+                output+= "<div class='card'></div>\n";
+            }
+            $('.container').html(output);
+        }
+
+
+        makeHiddenBoard();
+        makeBoard();
+
+        var colorOne = '';
+        var colorTwo = '';
+        var clickOne = true;
+        var cardIndexOne;
+            var cardIndexTwo;
+        //click on the card to get it's hidden color
+        
+        $('.card').click(function() {
+ 
+            if (clickOne == true){
+                console.log("first click");
+                cardIndexOne = $(this).index('.card');
+                colorOne = hiddenBoard[cardIndexOne];
+                $(this).addClass(colorOne);
+                clickOne = false;
+            }
+
+            else if (clickOne == false){
+                console.log('Second click');
+                cardIndexTwo = $(this).index('.card');
+                colorTwo = hiddenBoard[cardIndexTwo];
+                $(this).addClass(hiddenBoard[cardIndexTwo]);
+
+                if (colorTwo == colorOne) {
+                    console.log("same");
+                }
+                else {
+                        $('.card').eq(cardIndexOne).removeClass(colorOne);
+                        $('.card').eq(cardIndexTwo).removeClass(colorTwo);
+                        console.log("cardIndexOne = " + " " + cardIndexOne);
+                        console.log("cardIndexTwo = " + " " + cardIndexTwo);
+                }
+                clickOne = true;
+            }
+        });
+
+
+
+
+    // $('.card').click(function(){
+    //     var cardIndex = $(this).index('.card');
+    //     var currentColor = hiddenBoard[cardIndex];  
+    //     console.log($('.card').index(this));
+    //     $(this).css('background-color', hiddenBoard[cardIndex]);                        
+    // });
+
+    </script>
+
+</html>
